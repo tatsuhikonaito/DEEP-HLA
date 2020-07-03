@@ -173,7 +173,7 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.co
 
 ## Sample
 
-The sample models trained with our Japanese reference panel and T1DGC reference panel will be uploaded after the orignal paper of `DEEP*HLA` is published.
+The sample models used in our study will be uploaded after the orignal paper of `DEEP*HLA` is published.
 
 ## Reference
 
