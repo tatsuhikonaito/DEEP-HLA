@@ -1,5 +1,5 @@
 ![](/Users/tatsuhiko/Documents/GitHub/DEEP-HLA/DEEP-HLA_logo.png)
-<img width="400" alt="DEEP-HLA_logo" src="https://user-images.githubusercontent.com/67576643/86470256-08398780-bd76-11ea-9b53-be7c05e2add7.png">
+<img width="800" alt="DEEP-HLA_logo" src="https://user-images.githubusercontent.com/67576643/86470256-08398780-bd76-11ea-9b53-be7c05e2add7.png">
 
 # DEEP*HLA
 
