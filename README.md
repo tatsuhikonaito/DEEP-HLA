@@ -34,10 +34,6 @@ cd ./DEEP-HLA
 
 #### 0. Original file formats
 
-|
-|
-|
-
  The original files for model and HLA information are needed to run `DEEP*HLA`.
 
 * {MODEL}.config.json
@@ -94,10 +90,6 @@ cd ./DEEP-HLA
 
 #### 1. Model training
 
-|
-|
-|
-
 Run  `train.py` on a command-line interface as follows. 
 
 ```
@@ -132,15 +124,8 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 
   Accuracies of trained models in validation process. 
 
-|
-|
-|
 
 #### 2. Imputation
-
-|
-|
-|
 
 After you have finished training a model, run `impute.py` as follows. 
 
@@ -162,10 +147,6 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.co
 | `--mc-dropout`  | Whether to calculate uncertainty by Monte Carlo dropout (True or False). | No       | False     |
 
 ##### Outputs
-
-|
-|
-|
 
 - {OUT}.deephla.phased
 
