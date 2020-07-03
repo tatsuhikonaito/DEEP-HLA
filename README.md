@@ -67,7 +67,7 @@ cd ./DEEP-HLA
 
 * {HLA}.info.json
 
-  The description of information of HLA genes in reference data, including HLA gene names, each position, and HLA allele names for each resolution. They must be consistent with reference data.
+  The description of information of HLA genes in reference data, including HLA gene names, position, and HLA allele names for each resolution. They must be consistent with reference data.
 
   ```
   {
