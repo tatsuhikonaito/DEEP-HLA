@@ -38,7 +38,7 @@ cd ./DEEP-HLA
 
 * {MODEL}.config.json
 
-  The description of a model configuration, including grouping of HLA genes, window of SNV (Kb), and parameters of neural networks. The gene names must be consistent with reference data.
+  The description of a model configuration, including grouping of HLA genes, window size of SNV (Kb), and parameters of neural networks. The gene names must be consistent with reference data.
 
   ```
   {
