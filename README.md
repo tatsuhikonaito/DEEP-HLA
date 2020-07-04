@@ -32,7 +32,7 @@ cd ./DEEP-HLA
 
 ## Usage
 
-#### 0. Original file formats
+### 0. Original file formats
 
  The original files for model and HLA information are needed to run `DEEP*HLA`.
 
@@ -88,7 +88,7 @@ cd ./DEEP-HLA
 
 
 
-#### 1. Model training
+### 1. Model training
 
 Run  `train.py` on a command-line interface as follows. 
 
@@ -125,7 +125,7 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
   Accuracies of trained models in validation process. 
 
 
-#### 2. Imputation
+### 2. Imputation
 
 After you have finished training a model, run `impute.py` as follows. 
 
