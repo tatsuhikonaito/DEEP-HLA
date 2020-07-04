@@ -6,7 +6,7 @@
 
 ## Overview
 
-`DEEP*HLA` receives SNV data and outputs genotype dosages of binary HLA alleles. In  `DEEP*HLA`, HLA imputation is peformed in two processes: (1) a model training with a HLA reference panel and (2) Imputation with a trained model.
+`DEEP*HLA` receives SNV data and outputs genotype dosages of binary HLA alleles. In  `DEEP*HLA`, HLA imputation is peformed in two processes: (1) model training with a HLA reference panel and (2) Imputation with a trained model.
 
 ## Requirements
 
