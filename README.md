@@ -138,7 +138,7 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.co
 | Option name     | Descriptions                                                 | Required | Default   |
 | --------------- | ------------------------------------------------------------ | -------- | --------- |
 | `--sample`      | Sample SNP data (.bgl.phased or .haps, .bim, and .fam format). | Yes      | None      |
-| `--phased-type` | File format of sample phased file ("bgl", "hap").            | No       | "bgl"     |
+| `--phased-type` | File format of sample phased file ("bgl" or "hap").            | No       | "bgl"     |
 | `--model`       | Model configuration (.config.json and .bim format).          | Yes      | None      |
 | `--hla`         | HLA information of the reference data (.info.json format).   | Yes      | None      |
 | `--model-dir`   | Directory where trained models are saved.                    | No       | "model"   |
