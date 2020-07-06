@@ -176,7 +176,7 @@ The sample models used in our study will be uploaded after the orignal paper of 
 
 ## Reference
 
-`DEEP*HLA` uses MGDA-UB (Multiple Gradient Descent Algorithm - Upper Bound) for multi-task learning, and the source code of its part refers to [MultiObjectiveOptimization](https://github.com/intel-isl/MultiObjectiveOptimization). 
+`DEEP*HLA` uses MGDA-UB (Multiple Gradient Descent Algorithm - Upper Bound) for multi-task learning, and the source code of its part is implemented with the modification of [MultiObjectiveOptimization](https://github.com/intel-isl/MultiObjectiveOptimization). 
 
 ## Contact
 
