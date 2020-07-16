@@ -87,10 +87,11 @@ cd ./DEEP-HLA
 
 
 
-
 ### 1. Model training
 
 Run  `train.py` on a command-line interface as follows. 
+
+HLA reference data are currently only supproted in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html).
 
 ```
 $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --model MODEL (.config.json) --hla HLA (.info.json) --model-dir MODEL_DIR
@@ -101,7 +102,7 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 | Option name   | Descriptions                                                 | Required | Default   |
 | ------------- | ------------------------------------------------------------ | -------- | --------- |
 | `--ref`       | HLA reference data (.bgl.phased, and .bim format).           | Yes      | None      |
-| `--sample`    | Sample SNP data (.bim format).                               | Yes      | None      |
+| `--sample`    | Sample SNP data of the MHC region (.bim format).             | Yes      | None      |
 | `--model`     | Model configuration (.config.json format).                   | Yes      | None      |
 | `--hla`       | HLA information of the reference data (.info.json format).   | Yes      | None      |
 | `--model-dir` | Directory for saving trained models.                         | No       | "model"   |
@@ -129,6 +130,8 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 
 After you have finished training a model, run `impute.py` as follows. 
 
+Phased sample data are supported in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html) and Oxford haps format ([SHAPEIT](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#home), [Eagle](https://data.broadinstitute.org/alkesgroup/Eagle/), etc.).
+
 ```
 $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.config) --hla HLA (.info.json) --model-dir MODEL_DIR --out OUT
 ```
@@ -137,8 +140,8 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.co
 
 | Option name     | Descriptions                                                 | Required | Default   |
 | --------------- | ------------------------------------------------------------ | -------- | --------- |
-| `--sample`      | Sample SNP data (.bgl.phased or .haps, .bim, and .fam format). | Yes      | None      |
-| `--phased-type` | File format of sample phased file ("bgl" or "hap").            | No       | "bgl"     |
+| `--sample`      | Sample SNP data of the MHC region (.bgl.phased or .haps, .bim, and .fam format). | Yes      | None      |
+| `--phased-type` | File format of sample phased file ("bgl" or "hap").          | No       | "bgl"     |
 | `--model`       | Model configuration (.config.json and .bim format).          | Yes      | None      |
 | `--hla`         | HLA information of the reference data (.info.json format).   | Yes      | None      |
 | `--model-dir`   | Directory where trained models are saved.                    | No       | "model"   |
