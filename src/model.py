@@ -26,7 +26,7 @@ class SharedNet(nn.Module):
         self.fc = nn.Linear(conv2_num_filter * linear_input, fc_len)
 
     def forward(self, x, mask_input, mask_conv1, mask_conv2):
-        x = x.transpose(1, 2)  # a hack to handle Conv1d input
+        x = x.transpose(1, 2)  # A hack to handle Conv1d input
         # Input is randomly collapsed with (0, 0) vector during training by default
         if self.training and self.input_collapse:
             if mask_input is None:
