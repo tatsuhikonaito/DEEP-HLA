@@ -85,8 +85,6 @@ cd ./DEEP-HLA
   }
   ```
 
-
-
 ### 1. Model training
 
 Run  `train.py` on a command-line interface as follows. 
@@ -133,7 +131,7 @@ After you have finished training a model, run `impute.py` as follows.
 Phased sample data are supported in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html) and Oxford haps format ([SHAPEIT](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#home), [Eagle](https://data.broadinstitute.org/alkesgroup/Eagle/), etc.).
 
 ```
-$ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.config) --hla HLA (.info.json) --model-dir MODEL_DIR --out OUT
+$ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL (.config) --hla HLA (.info.json) --model-dir MODEL_DIR --out OUT
 ```
 
 ##### Arguments and options
@@ -172,10 +170,71 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim) --model MODEL (.co
   Uncertainty based on entropy of sampling variation in Monte Carlo dropout.
 
   First column is marker name; and subsequent columns are entropys as one column per individual.
+  
+  
 
-## Sample
+## Example
 
-The sample models used in our study will be uploaded after the orignal paper of `DEEP*HLA` is published.
+Here, we demonstrate a practical usage with an example of Pan-Asian reference panel.
+
+First, dowload Pan-Asian reference panel data and example data at [SNP2HLA dowload site](http://software.broadinstitute.org/mpg/snp2hla/).
+
+Perform pre-phasing of the example data, and generate  `1958BC.haps (or .bgl.phased)`  file.
+
+Put them into  `Pan-Asian` directory.
+
+```
+DEEP-HLA/
+　└ Pan-Asian/
+　 　├ Pan-Asian_REF.bgl.phased
+　 　├ Pan-Asian_REF.bim
+　 　├ Pan-Asian_REF.config.json
+　 　├ Pan-Asian_REF.info.json
+　 　├ 1958BC.haps (or .bgl.phased)
+　 　├ 1958BC.bim
+　 　├ 1958BC.fam
+　 　└ model/
+```
+
+### 1. Model training
+
+Run  `train.py`  as follows. The files in `model` directory will be overwritten.
+
+```
+$ python train.py --ref Pan-Asian/Pan-Asian_REF --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/
+```
+
+### 2. Imputation
+
+Run  `impute.py`  as follows.
+
+```
+$ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
+```
+
+### 3. Imputation of amino acid polymorphisms
+
+Run  `impute_aa.py`  as follows.
+
+```
+$ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
+```
+
+### 4. Other referece panels
+
+﻿The Japanese HLA data have been deposited at the National Bioscience Database Center (NBDC) Human Database (research ID: hum0114). ﻿Independent HLA genotype data of Japanese population is available in the Japanese Genotype-phenotype archive (JGA; accession ID: JGAS00000000018). T1DGC HLA reference panel can be download at a NIDDK central repository with a request (https://repository.niddk.nih.gov/studies/t1dgc-special/). 
+
+
+
+Run  `impute_aa.py`  as follows.
+
+```
+$ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
+```
+
+
+
+## 
 
 ## Reference
 
