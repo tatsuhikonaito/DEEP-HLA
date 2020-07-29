@@ -26,13 +26,13 @@ def impute(args):
 
     # Load files
     print('Loading files...')
-    with open(args.model + '.config.json', 'r') as f:
+    with open(args.model + '.model.json', 'r') as f:
         model_config = json.load(f)
     sample_bim = pd.read_table(args.sample + '.bim', sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
     sample_fam = pd.read_table(args.sample + '.fam', sep='\t|\s+', names=['fid', 'iid', 'fat', 'mot', 'sex', 'phe'], header=None, engine='python')
     model_dir = args.model_dir
     model_bim = pd.read_table(os.path.join(BASE_DIR, model_dir, 'model.bim'), sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
-    with open(args.hla + '.info.json', 'r') as f:
+    with open(args.hla + '.hla.json', 'r') as f:
         hla_info = json.load(f)
     if args.max_digit == '2-digit':
         digit_list = ['2-digit']
@@ -218,9 +218,9 @@ def impute(args):
 def main():
     parser = argparse.ArgumentParser(description='Perform HLA imputation with a trained model.')
     parser.add_argument('--sample', required=True, help='Sample SNP data (.bgl.phased or .haps, and .bim format).', dest='sample')
-    parser.add_argument('--model', required=True, help='Model configuration (.config.json format).', dest='model')
+    parser.add_argument('--model', required=True, help='Model configuration (.model.json format).', dest='model')
     parser.add_argument('--phased-type', default='bgl', choices=['bgl', 'haps'], required=False, help='File format of sample phased file ("bgl", "haps").', dest='phased_type')
-    parser.add_argument('--hla', required=True, help='HLA information of the reference data (.info.json format).', dest='hla')
+    parser.add_argument('--hla', required=True, help='HLA information of the reference data (.hla.json format).', dest='hla')
     parser.add_argument('--model-dir', default='model', required=False, help='Directory for saving trained models.', dest='model_dir')
     parser.add_argument('--out', required=True, help='Prefix of result file', dest='out')
     parser.add_argument('--num-epoch', default=100, type=int, required=False, help='Number of epochs to train.', dest='num_epoch')

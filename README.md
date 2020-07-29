@@ -4,9 +4,15 @@
 
 `DEEP*HLA`  is an HLA allelic imputation program based on a multi-task convolutional neural network implemented in Python.
 
-## Overview
+`DEEP*HLA` receives pre-phased SNV data and outputs genotype dosages of binary HLA alleles. In  `DEEP*HLA`, HLA imputation is peformed in two processes: 
 
-`DEEP*HLA` receives SNV data and outputs genotype dosages of binary HLA alleles. In  `DEEP*HLA`, HLA imputation is peformed in two processes: (1) model training with a HLA reference panel and (2) imputation with a trained model.
+​	(1) model training with a HLA reference panel  
+
+​	(2) imputation with a trained model.
+
+## Publication/Citation
+
+The study of `DEEP*HLA` is described in the manuscript. 
 
 ## Requirements
 
@@ -36,7 +42,7 @@ cd ./DEEP-HLA
 
  The original files for model and HLA information are needed to run `DEEP*HLA`.
 
-* {MODEL}.config.json
+* {MODEL}.model.json
 
   The description of a model configuration, including grouping of HLA genes, window size of SNV (Kb), and parameters of neural networks. The gene names must be consistent with reference data.
 
@@ -65,7 +71,7 @@ cd ./DEEP-HLA
   ```
 
 
-* {HLA}.info.json
+* {HLA}.hla.json
 
   The description of information of HLA genes in reference data, including HLA gene names, position, and HLA allele names for each resolution. They must be consistent with reference data.
 
@@ -92,7 +98,7 @@ Run  `train.py` on a command-line interface as follows.
 HLA reference data are currently only supproted in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html).
 
 ```
-$ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --model MODEL (.config.json) --hla HLA (.info.json) --model-dir MODEL_DIR
+$ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --model MODEL (.model.json) --hla HLA (.hla.json) --model-dir MODEL_DIR
 ```
 
 ##### Arguments and options
@@ -101,8 +107,8 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 | ------------- | ------------------------------------------------------------ | -------- | --------- |
 | `--ref`       | HLA reference data (.bgl.phased, and .bim format).           | Yes      | None      |
 | `--sample`    | Sample SNP data of the MHC region (.bim format).             | Yes      | None      |
-| `--model`     | Model configuration (.config.json format).                   | Yes      | None      |
-| `--hla`       | HLA information of the reference data (.info.json format).   | Yes      | None      |
+| `--model`     | Model configuration (.model.json format).                    | Yes      | None      |
+| `--hla`       | HLA information of the reference data (.hla.json format).    | Yes      | None      |
 | `--model-dir` | Directory for saving trained models.                         | No       | "model"   |
 | `--num-epoch` | Number of epochs to train.                                   | No       | 100       |
 | `--patience`  | Patience for early-stopping. If you prefer no early-stopping, specify the same value as `--num-epoch`. | No       | 16        |
@@ -131,7 +137,7 @@ After you have finished training a model, run `impute.py` as follows.
 Phased sample data are supported in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html) and Oxford haps format ([SHAPEIT](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#home), [Eagle](https://data.broadinstitute.org/alkesgroup/Eagle/), etc.).
 
 ```
-$ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL (.config) --hla HLA (.info.json) --model-dir MODEL_DIR --out OUT
+$ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL (.model.json) --hla HLA (.hla.json) --model-dir MODEL_DIR --out OUT
 ```
 
 ##### Arguments and options
@@ -140,8 +146,8 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL
 | --------------- | ------------------------------------------------------------ | -------- | --------- |
 | `--sample`      | Sample SNP data of the MHC region (.bgl.phased or .haps, .bim, and .fam format). | Yes      | None      |
 | `--phased-type` | File format of sample phased file ("bgl" or "hap").          | No       | "bgl"     |
-| `--model`       | Model configuration (.config.json and .bim format).          | Yes      | None      |
-| `--hla`         | HLA information of the reference data (.info.json format).   | Yes      | None      |
+| `--model`       | Model configuration (.model.json and .bim format).           | Yes      | None      |
+| `--hla`         | HLA information of the reference data (.hla.json format).    | Yes      | None      |
 | `--model-dir`   | Directory where trained models are saved.                    | No       | "model"   |
 | `--out`         | Prefix of output files.                                      | Yes      | None      |
 | `--max-digit`   | Maximum resolution of alleles to impute ("2-digit", "4-digit", or "6-digit"). | No       | "4-digit" |
@@ -177,9 +183,13 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL
 
 Here, we demonstrate a practical usage with an example of Pan-Asian reference panel.
 
+The trained models have already been stored in  `Pan-Asian/model`, so you can skip the model training process.
+
+### 0. Data preparation
+
 First, dowload Pan-Asian reference panel data and example data at [SNP2HLA dowload site](http://software.broadinstitute.org/mpg/snp2hla/).
 
-Perform pre-phasing of the example data, and generate  `1958BC.haps (or .bgl.phased)`  file.
+Perform pre-phasing of the example data with any phasing software ([SHAPEIT](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#home), [Eagle](https://data.broadinstitute.org/alkesgroup/Eagle/), and [Beagle](https://faculty.washington.edu/browning/beagle/beagle.html)), and generate a `1958BC.haps (or .bgl.phased)`  file.
 
 Put them into  `Pan-Asian` directory.
 
@@ -198,7 +208,9 @@ DEEP-HLA/
 
 ### 1. Model training
 
-Run  `train.py`  as follows. The files in `model` directory will be overwritten.
+We have already prepared a trained model, so you can skip this step if you want.
+
+Otherwise, run  `train.py`  as follows. The files in `Pan-Asian/model` directory will be overwritten.
 
 ```
 $ python train.py --ref Pan-Asian/Pan-Asian_REF --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/
@@ -209,7 +221,7 @@ $ python train.py --ref Pan-Asian/Pan-Asian_REF --sample Pan-Asian/1958BC --mode
 Run  `impute.py`  as follows.
 
 ```
-$ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
+$ python impute.py --sample Pan-Asian/1958BC --phased-type haps --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
 ```
 
 ### 3. Imputation of amino acid polymorphisms
@@ -217,24 +229,19 @@ $ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --h
 Run  `impute_aa.py`  as follows.
 
 ```
-$ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
+$ python impute_aa.py --dosage Pan-Asian/1958BC --aa-table Pan-Asian/Pan-Asian_REF --out Pan-Asian/1958BC
 ```
 
-### 4. Other referece panels
+### 4. Other HLA referece panels
 
-﻿The Japanese HLA data have been deposited at the National Bioscience Database Center (NBDC) Human Database (research ID: hum0114). ﻿Independent HLA genotype data of Japanese population is available in the Japanese Genotype-phenotype archive (JGA; accession ID: JGAS00000000018). T1DGC HLA reference panel can be download at a NIDDK central repository with a request (https://repository.niddk.nih.gov/studies/t1dgc-special/). 
+Please follow the application process to obtain the two reference panels used in our study.
 
+- Our Japanese HLA data have been deposited at the National Bioscience Database Center (NBDC) Human Database (research ID: hum0114). 
+- T1DGC HLA reference panel can be download at [the NIDDK central repository](https://repository.niddk.nih.gov/studies/t1dgc-special/) with a request. 
 
-
-Run  `impute_aa.py`  as follows.
-
-```
-$ python impute.py --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/1958BC
-```
+Their related files for imputation (.config.json, .info.json, and aa_table.pickle) may be provided upon request.
 
 
-
-## 
 
 ## Reference
 

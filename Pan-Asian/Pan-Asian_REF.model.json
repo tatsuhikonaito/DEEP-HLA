@@ -1,0 +1,6 @@
+{
+	"1": {"HLA": ["HLA_A"], "w": 500, "conv1_num_filter": 128, "conv2_num_filter": 64, "conv1_kernel_size": 64, "conv2_kernel_size": 64, "fc_len": 256},
+    "2": {"HLA": ["HLA_C", "HLA_B"], "w": 500, "conv1_num_filter": 128, "conv2_num_filter": 64, "conv1_kernel_size": 64, "conv2_kernel_size": 64, "fc_len": 256},
+    "3": {"HLA": ["HLA_DRB1", "HLA_DQA1", "HLA_DQB1"], "w": 500, "conv1_num_filter": 128, "conv2_num_filter": 64, "conv1_kernel_size": 64, "conv2_kernel_size": 64, "fc_len": 256},
+    "4": {"HLA": ["HLA_DPA1", "HLA_DPB1"], "w": 500, "conv1_num_filter": 128, "conv2_num_filter": 64, "conv1_kernel_size": 64, "conv2_kernel_size": 64, "fc_len": 256}
+}

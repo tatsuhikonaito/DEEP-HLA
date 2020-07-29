@@ -110,16 +110,19 @@ def train_model(train_loader, hla_list, allele_cnts, num_task, model, optimizer,
                 grads[t].append(shared_variable.grad.data.clone().requires_grad_(False))
                 shared_variable.grad.data.zero_()
 
-            # Normalize all gradients
-            gn = gradient_normalizers(grads, loss_data)
-            for t in range(num_task):
-                for gr_i in range(len(grads[t])):
-                    grads[t][gr_i] = grads[t][gr_i] / gn[t]
+            if num_task != 1:
+                # Normalize all gradients
+                gn = gradient_normalizers(grads, loss_data)
+                for t in range(num_task):
+                    for gr_i in range(len(grads[t])):
+                        grads[t][gr_i] = grads[t][gr_i] / gn[t]
 
-            # Frank-Wolfe iteration to compute scales.
-            sol, min_norm = MinNormSolver.find_min_norm_element([grads[t] for t in range(num_task)])
-            for t in range(num_task):
-                scale[t] = float(sol[t])
+                # Frank-Wolfe iteration to compute scales.
+                sol, min_norm = MinNormSolver.find_min_norm_element([grads[t] for t in range(num_task)])
+                for t in range(num_task):
+                    scale[t] = float(sol[t])
+            else:
+                scale[0] = 1
 
             # Scaled back-propagation
             optimizer.zero_grad()
@@ -155,9 +158,9 @@ def train(args):
     ref_phased = pd.read_table(args.ref + '.bgl.phased', sep='\t|\s+', header=None, engine='python', skiprows=5).iloc[:, 1:]
     ref_phased = ref_phased.set_index(1)
     sample_bim = pd.read_table(args.sample + '.bim', sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
-    with open(args.model + '.config.json', 'r') as f:
+    with open(args.model + '.model.json', 'r') as f:
         model_config = json.load(f)
-    with open(args.hla + '.info.json', 'r') as f:
+    with open(args.hla + '.hla.json', 'r') as f:
         hla_info = json.load(f)
     model_dir = args.model_dir
 
@@ -189,7 +192,7 @@ def train(args):
     if not os.path.exists(os.path.join(BASE_DIR, model_dir)):
         os.mkdir(os.path.join(BASE_DIR, model_dir))
     else:
-        print('Warning: Directory for saving models already exists')
+        print('Warning: Directory for saving models already exists.')
 
     model_bim.to_csv(os.path.join(BASE_DIR, model_dir, 'model.bim'), sep='\t', header=False, index=False)
 
@@ -343,8 +346,8 @@ def main():
     parser = argparse.ArgumentParser(description='Train a model using a HLA reference data.')
     parser.add_argument('--ref', required=True, help='HLA reference data (.bgl.phased or .haps, and .bim format).', dest='ref')
     parser.add_argument('--sample', required=True, help='Sample SNP data (.bim format).', dest='sample')
-    parser.add_argument('--model', required=True, help='Model configuration (.config.json format).', dest='model')
-    parser.add_argument('--hla', required=True, help='HLA information of the reference data (.info.json format).', dest='hla')
+    parser.add_argument('--model', required=True, help='Model configuration (.model.json format).', dest='model')
+    parser.add_argument('--hla', required=True, help='HLA information of the reference data (.hla.json format).', dest='hla')
     parser.add_argument('--model-dir', default='model', required=False, help='Directory for saving trained models.', dest='model_dir')
     parser.add_argument('--num-epoch', default=100, type=int, required=False, help='Number of epochs to train.', dest='num_epoch')
     parser.add_argument('--patience', default=16, type=int, required=False, help='Patience for early-stopping.', dest='patience')
