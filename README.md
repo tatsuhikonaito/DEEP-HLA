@@ -239,7 +239,7 @@ Please follow the application process to obtain the two reference panels used in
 - Our Japanese HLA data have been deposited at the National Bioscience Database Center (NBDC) Human Database (research ID: hum0114). 
 - T1DGC HLA reference panel can be download at [the NIDDK central repository](https://repository.niddk.nih.gov/studies/t1dgc-special/) with a request. 
 
-Their related files for imputation (.config.json, .info.json, and aa_table.pickle) may be provided upon request.
+Their related files for imputation (.model.json, .hla.json, and .aa_table.pickle) may be provided upon request.
 
 
 
