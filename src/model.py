@@ -27,7 +27,7 @@ class SharedNet(nn.Module):
 
     def forward(self, x, mask_input, mask_conv1, mask_conv2):
         x = x.transpose(1, 2)  # A hack to handle Conv1d input
-        # Input is randomly collapsed with (0, 0) vector during training by default
+        # Input can be randomly collapsed with (0, 0) vector as missing- values during training. 
         if self.training and self.input_collapse:
             if mask_input is None:
                 mask_input = torch.bernoulli(x.data.new(x.data.size()).fill_(random.uniform(0.8, 1)))
