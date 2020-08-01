@@ -1,4 +1,4 @@
-<img width="850" alt="DEEP-HLA_logo" src="https://user-images.githubusercontent.com/67576643/89096688-70ca6180-d413-11ea-9d62-58e4d5960eed.png">
+<img width="858" alt="DEEP-HLA_logo" src="https://user-images.githubusercontent.com/67576643/89102383-8e172400-d443-11ea-9e6c-00c21405b988.png">
 
 # DEEP*HLA
 
