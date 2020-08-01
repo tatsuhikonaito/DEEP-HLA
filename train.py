@@ -220,8 +220,7 @@ def train(args):
     num_epoch = args.num_epoch
     patience = args.patience
 
-    result_best_val = pd.DataFrame(index=digit_list,
-                                   columns=hla_info.keys())
+    result_best_val = pd.DataFrame(index=hla_info.keys(), columns=digit_list)
     for g in model_config:
         hla_list = model_config[g]['HLA']
         w = model_config[g]['w'] * 1000
@@ -258,8 +257,8 @@ def train(args):
             num_task = len(train_data[0]) - 1
 
             # Spare the latter part of data for validation
-            train_index = np.arange(int(2*num_ref*(1-val_split)))
-            val_index = np.arange(int(2*num_ref*(1-val_split)), 2*num_ref)
+            train_index = np.arange(int(2*num_ref*val_split), 2*num_ref)
+            val_index = np.arange(int(2*num_ref*val_split))
             train_loader = torch.utils.data.DataLoader(Subset(train_data, train_index), batch_size=batch_size)
             val_loader = torch.utils.data.DataLoader(Subset(train_data, val_index), batch_size=batch_size, shuffle=False)
 
@@ -335,7 +334,7 @@ def train(args):
                     os.rename(os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, best_epoch, hla)), 
                               os.path.join(BASE_DIR, model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla)))
             best_val_acc = test_model(val_loader, hla_list, allele_cnts, num_task, model, metric, 'best_val')
-            result_best_val.loc[digit, hla_list] = best_val_acc
+            result_best_val.loc[hla_list, digit] = best_val_acc
 
     result_best_val.to_csv(os.path.join(BASE_DIR, model_dir, 'best_val.txt'), header=True, index=True, sep='\t')
 
