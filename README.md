@@ -189,7 +189,7 @@ The trained models have already been stored in  `Pan-Asian/model`, so you can sk
 
 First, dowload Pan-Asian reference panel data and example data at [SNP2HLA dowload site](http://software.broadinstitute.org/mpg/snp2hla/).
 
-Perform pre-phasing of the example data with any phasing software ([SHAPEIT](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#home), [Eagle](https://data.broadinstitute.org/alkesgroup/Eagle/), and [Beagle](https://faculty.washington.edu/browning/beagle/beagle.html)), and generate a `1958BC.haps (or .bgl.phased)`  file.
+Perform pre-phasing of the example data with any phasing software ([SHAPEIT](https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html#home), [Eagle](https://data.broadinstitute.org/alkesgroup/Eagle/), and [Beagle](https://faculty.washington.edu/browning/beagle/beagle.html), etc.), and generate a `1958BC.haps (or .bgl.phased)`  file.
 
 Put them into  `Pan-Asian` directory.
 
@@ -208,7 +208,7 @@ DEEP-HLA/
 
 ### 1. Model training
 
-We have already prepared a trained model, so you can skip this step if you want.
+We have already uploaded a trained model, so you can skip this step.
 
 Otherwise, run  `train.py`  as follows. The files in `Pan-Asian/model` directory will be overwritten.
 
