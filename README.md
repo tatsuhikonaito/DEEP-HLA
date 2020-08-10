@@ -2,7 +2,7 @@
 
 # DEEP*HLA
 
-`DEEP*HLA`  is an HLA allelic imputation program based on a multi-task convolutional neural network implemented in Python.
+`DEEP*HLA`  is an HLA allelic imputation method based on a multi-task convolutional neural network implemented in Python.
 
 `DEEP*HLA` receives pre-phased SNV data and outputs genotype dosages of binary HLA alleles. In  `DEEP*HLA`, HLA imputation is peformed in two processes: 
 
