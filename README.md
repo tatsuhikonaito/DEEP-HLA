@@ -94,7 +94,7 @@ cd ./DEEP-HLA
 ### 1. Model training
 
 Run  `train.py` on a command-line interface as follows. 
-
+Sample files should have only the MHC region extracted for HLA imputation (typically, chr6:29-34 or 24-36 Mb).
 HLA reference data are currently only supproted in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html).
 
 ```
