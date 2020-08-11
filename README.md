@@ -167,7 +167,7 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL
 
   Imputed allele dosage data. 
 
-  First, second, and third columns are marker name, ref ("P"), and alt ("A"); and subsequent columns are dosages as one column per individual.
+  First, second, and third columns are marker name, allele1 ("P"), and allele2 ("A"); and subsequent columns are dosages as one column per individual.
 
   Rows are markers and columns are individuals, as one column per individual. 
 
