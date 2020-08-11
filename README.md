@@ -213,7 +213,7 @@ We have already uploaded a trained model, so you can skip this step.
 Otherwise, run  `train.py`  as follows. The files in `Pan-Asian/model` directory will be overwritten.
 
 ```
-$ python train.py --ref Pan-Asian/Pan-Asian_REF --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model --out Pan-Asian/
+$ python train.py --ref Pan-Asian/Pan-Asian_REF --sample Pan-Asian/1958BC --model Pan-Asian/Pan-Asian_REF --hla Pan-Asian/Pan-Asian_REF --model-dir Pan-Asian/model
 ```
 
 ### 2. Imputation
