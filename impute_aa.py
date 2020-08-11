@@ -53,13 +53,13 @@ def impute_aa(args):
         aa_dosage_batch.to_csv('{}.batch{}.aa.deephla.dosage'.format(out_prefix, batch_i+1), sep='\t', header=True, index=True)
 
     aa_dosage = pd.DataFrame(index=aa_table_index)
-    aa_ref = []
-    aa_alt = []
+    aa_a1 = []
+    aa_a2 = []
     for hla in hla_names:
-        aa_ref.extend(list(aa_table[hla].loc['ref']))
-        aa_alt.extend(list(aa_table[hla].loc['alt']))
-    aa_dosage['ref'] = aa_ref
-    aa_dosage['alt'] = aa_alt
+        aa_a1.extend(list(aa_table[hla].loc['a1']))
+        aa_a2.extend(list(aa_table[hla].loc['a2']))
+    aa_dosage['a1'] = aa_a1
+    aa_dosage['a2'] = aa_a2
 
     # Merge result files
     for batch_i in range(num_batch):
