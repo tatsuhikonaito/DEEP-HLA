@@ -94,7 +94,9 @@ cd ./DEEP-HLA
 ### 1. Model training
 
 Run  `train.py` on a command-line interface as follows. 
-Sample files should have only the MHC region extracted for HLA imputation (typically, chr6:29-34 or 24-36 Mb).
+
+Sample files should have only the MHC region extracted for HLA imputation (typically, chr6:29-34 or 24-36 Mb). In addition, **<u>the strands must be consistent between the sample and reference data</u>**.
+
 HLA reference data are currently only supproted in [Beagle-phased format](http://software.broadinstitute.org/mpg/snp2hla/snp2hla_manual.html).
 
 ```
@@ -145,7 +147,7 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL
 | Option name     | Descriptions                                                 | Required | Default   |
 | --------------- | ------------------------------------------------------------ | -------- | --------- |
 | `--sample`      | Sample SNP data of the MHC region (.bgl.phased or .haps, .bim, and .fam format). | Yes      | None      |
-| `--phased-type` | File format of sample phased file ("bgl" or "hap").          | No       | "bgl"     |
+| `--phased-type` | File format of sample phased file ("bgl" or "haps").         | No       | "bgl"     |
 | `--model`       | Model configuration (.model.json and .bim format).           | Yes      | None      |
 | `--hla`         | HLA information of the reference data (.hla.json format).    | Yes      | None      |
 | `--model-dir`   | Directory where trained models are saved.                    | No       | "model"   |
