@@ -223,7 +223,6 @@ def main():
     parser.add_argument('--hla', required=True, help='HLA information of the reference data (.hla.json format).', dest='hla')
     parser.add_argument('--model-dir', default='model', required=False, help='Directory for saving trained models.', dest='model_dir')
     parser.add_argument('--out', required=True, help='Prefix of result file', dest='out')
-    parser.add_argument('--num-epoch', default=100, type=int, required=False, help='Number of epochs to train.', dest='num_epoch')
     parser.add_argument('--max-digit', default='4-digit', choices=['2-digit', '4-digit', '6-digit'], required=False, help='Maximum resolution of alleles to impute.', dest='max_digit')
     parser.add_argument('--mc-dropout', default=False, type=bool, choices=[True, False], required=False, help='Whether to calculate uncertainty by Monte Carlo dropout.', dest='mc_dropout')
 
