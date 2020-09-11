@@ -267,7 +267,7 @@ def train(args):
             # Transfer parameters of shared net from those of upper digit
             if not digit == '2-digit':
                 try:
-                    model['shared'].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit_list[digit_list.index(digit)-1], epoch))))
+                    model['shared'].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit_list[digit_list.index(digit)-1]))))
                     logger.log('Transferred parameters from shared net of upper digit at {} level.'.format(digit))
                 except FileNotFoundError:
                     logger.log('Shared net of upper digit not found at {} level.'.format(digit))
