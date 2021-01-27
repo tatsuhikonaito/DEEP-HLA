@@ -3,6 +3,7 @@
 
 
 # DEEP*HLA
+[![DOI](https://zenodo.org/badge/276879049.svg)](https://zenodo.org/badge/latestdoi/276879049)
 
 `DEEP*HLA`  is an HLA allelic imputation method based on a multi-task convolutional neural network implemented in Python.
 
