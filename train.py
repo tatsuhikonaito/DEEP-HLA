@@ -256,7 +256,7 @@ def train(args):
                 train_data.append(tmp)
             num_task = len(train_data[0]) - 1
 
-            # Spare the latter part of data for validation
+            # Spare the part of data for validation
             train_index = np.arange(int(2*num_ref*val_split), 2*num_ref)
             val_index = np.arange(int(2*num_ref*val_split))
             train_loader = torch.utils.data.DataLoader(Subset(train_data, train_index), batch_size=batch_size)
@@ -333,6 +333,19 @@ def train(args):
                 if not allele_cnts[hla] == 1:
                     os.rename(os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, best_epoch, hla)), 
                               os.path.join(BASE_DIR, model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla)))
+
+            # Load the best models
+            model['shared'].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit))))
+            t = 0
+            for hla in hla_list:
+                if not allele_cnts[hla] == 1:
+                    model[t].load_state_dict(
+                        torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla))))
+                    t += 1
+            for m in model:
+                model[m] = model[m].float()
+                model[m].eval()
+            torch.no_grad()
             best_val_acc = test_model(val_loader, hla_list, allele_cnts, num_task, model, metric, 'best_val')
             result_best_val.loc[hla_list, digit] = best_val_acc
 
@@ -349,8 +362,8 @@ def main():
     parser.add_argument('--hla', required=True, help='HLA information of the reference data (.hla.json format).', dest='hla')
     parser.add_argument('--model-dir', default='model', required=False, help='Directory for saving trained models.', dest='model_dir')
     parser.add_argument('--num-epoch', default=100, type=int, required=False, help='Number of epochs to train.', dest='num_epoch')
-    parser.add_argument('--patience', default=16, type=int, required=False, help='Patience for early-stopping.', dest='patience')
-    parser.add_argument('--val-split', default=0.1, type=float, required=False, help='Ratio of splitting data for validation.', dest='val_split')
+    parser.add_argument('--patience', default=8, type=int, required=False, help='Patience for early-stopping.', dest='patience')
+    parser.add_argument('--val-split', default=0.05, type=float, required=False, help='Ratio of splitting data for validation.', dest='val_split')
     parser.add_argument('--max-digit', default='4-digit', choices=['2-digit', '4-digit', '6-digit'], required=False, help='Maximum resolution of classical alleles to impute.', dest='max_digit')
 
     args = parser.parse_args()
