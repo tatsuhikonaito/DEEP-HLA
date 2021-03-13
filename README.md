@@ -19,7 +19,7 @@ In  `DEEP*HLA`, HLA imputation is peformed in two processes:
 
 The study of `DEEP*HLA` is described in the manuscript. 
 
-- Naito, T. et al. A multi-task convolutional deep learning method for HLA allelic imputation and its application to trans-ethnic MHC fine-mapping of type 1 diabetes. Preprint at medRxiv (2020). [doi.org/10.1101/2020.08.10.20170522](https://www.medrxiv.org/content/10.1101/2020.08.10.20170522v1).
+- Naito, T. et al. A deep learning method for HLA imputation and trans-ethnic MHC fine-mapping of type 1 diabetes. Nat. Commun. 12, 1639 (2021). [doi.org/10.1038/s41467-021-21975-x]
 
 Please cite this paper if you use `DEEP*HLA` or any material in this repository.
 
