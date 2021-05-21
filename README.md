@@ -262,4 +262,4 @@ Their related files for imputation (.model.json, .hla.json, and .aa_table.pickle
 
 For any question, you can contact Tatsuhiko Naito ([tnaito@sg.med.osaka-u.ac.jp](mailto:tnaito@sg.med.osaka-u.ac.jp))
 
-One of the advantages of `DEEP*HLA` is that model training can be done in another place, even without sample genotypes. We may consider tailoring a `DEEP*HLA` model with our own or pulicly available reference panels that fits your SNP data. Please consider asking us by email individually if you have interest in it.
+One of the advantages of `DEEP*HLA` is that model training can be done in another place, even without sample genotypes. We may consider tailoring a `DEEP*HLA` model with our own or publicly available reference panels that fits your SNP data. Please consider asking us by email individually if you have interest in it.
