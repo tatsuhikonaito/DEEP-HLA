@@ -46,7 +46,7 @@ def make_hlainfo(args):
     for hla in hla_list:
         hla_info[hla] = OrderedDict()
         allele_list = [i for i in allele_list_all if i[0:len(hla)] == hla and i[len(hla)] == '_']
-        hla_info[hla]['pos'] = ref_bim[ref_bim.id==allele_list[0]].pos.values[0]
+        hla_info[hla]['pos'] = str(ref_bim[ref_bim.id==allele_list[0]].pos.values[0])
     
         if sep == ':':
             # For the separator ':', judge the digit of each allele by counting ':'
@@ -63,8 +63,8 @@ def make_hlainfo(args):
             if len(hla_info[hla][digit]) == 0:
                 print('Warning: {0} alleles of {1} are not typed.'.format(digit, hla))
 
-    with open(os.path.join(BASE_DIR, args.ref + '.hla.json'), 'w'):
-        json.dump(hla_info)
+    with open(os.path.join(BASE_DIR, args.ref + '.hla.json'), 'w') as f:
+        json.dump(hla_info, f)
 
     print('Done.')
 
