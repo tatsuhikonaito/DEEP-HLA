@@ -99,6 +99,26 @@ cd ./DEEP-HLA
   	...
   }
   ```
+  
+  An HLA information file can be made from a REFERENCE.bim file using `make_hlainfo.py` as follows. 
+  
+  ```
+  $ python make_hlainfo.py --ref REFERENCE (.bim)
+  ```
+  
+  ##### Arguments and options
+  
+  | Option name   | Descriptions                                                 | Required | Default   |
+  | ------------- | ------------------------------------------------------------ | -------- | --------- |
+  | `--ref`       | HLA reference data (.bim format).                            | Yes      | None      |
+  | `--max-digit` | Maximum resolution of alleles typed in the HLA reference data ("2-digit", "4-digit", or "6-digit"). | No       | "4-digit" |
+  
+  ##### Outputs
+  
+  - {REFERENCE}.hla.json
+  
+    Generated HLA information file. 
+  
 
 ### 1. Model training
 
