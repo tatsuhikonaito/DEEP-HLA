@@ -154,7 +154,7 @@ def train(args):
 
     # Load files
     print('Loading files...')
-    ref_bim = pd.read_table(args.ref + '.bim', sep='\t', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None)
+    ref_bim = pd.read_table(args.ref + '.bim', sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
     ref_phased = pd.read_table(args.ref + '.bgl.phased', sep='\t|\s+', header=None, engine='python', skiprows=5).iloc[:, 1:]
     ref_phased = ref_phased.set_index(1)
     sample_bim = pd.read_table(args.sample + '.bim', sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
