@@ -141,7 +141,7 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 | `--sample`    | Sample SNP data of the MHC region (.bim format).             | Yes      | None      |
 | `--model`     | Model configuration (.model.json format).                    | Yes      | None      |
 | `--hla`       | HLA information of the reference data (.hla.json format).    | Yes      | None      |
-| `--model-dir` | Directory for saving trained models.                         | No       | "model"   |
+| `--model-dir` | Directory for saving trained models.                         | No       | {BASE\_DIR}/model   |
 | `--num-epoch` | Number of epochs to train.                                   | No       | 100       |
 | `--patience`  | Patience for early-stopping. If you prefer no early-stopping, specify the same value as `--num-epoch`. | No       | 16        |
 | `--val-split` | Ratio of splitting data for validation.                      | No       | 0.1       |
