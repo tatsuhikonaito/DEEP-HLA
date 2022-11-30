@@ -112,7 +112,8 @@ cd ./DEEP-HLA
   | ------------- | ------------------------------------------------------------ | -------- | --------- |
   | `--ref`       | HLA reference data (.bim format).                            | Yes      | None      |
   | `--max-digit` | Maximum resolution of alleles typed in the HLA reference data ("2-digit", "4-digit", or "6-digit"). | No       | "4-digit" |
-  
+  | `--output`    | Output filename for HLA information JSON file                | No       | {BASE\_DIR}/{REFERENCE}.hla.json |
+
   ##### Outputs
   
   - {REFERENCE}.hla.json

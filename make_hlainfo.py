@@ -59,11 +59,16 @@ def make_hlainfo(args):
             for d_i in range(len(digit_list)):
                 digit = digit_list[d_i]
                 hla_info[hla][digit] = [i for i in allele_list if len(i.split('_')[-1])==2*(d_i+1) or len(i.split('_')[-1])==2*(d_i+1)+1]
-            
+
             if len(hla_info[hla][digit]) == 0:
                 print('Warning: {0} alleles of {1} are not typed.'.format(digit, hla))
 
-    with open(os.path.join(BASE_DIR, args.ref + '.hla.json'), 'w') as f:
+    if args.output:
+        output_fname = args.output
+    else:
+        output_fname = os.path.join(BASE_DIR, args.ref + '.hla.json')
+
+    with open(output_fname, 'w') as f:
         json.dump(hla_info, f)
 
     print('Done.')
@@ -75,6 +80,7 @@ def main():
                         help='HLA reference data (.bgl.phased or .haps, and .bim format).', dest='ref')
     parser.add_argument('--max-digit', default='4-digit', choices=['2-digit', '4-digit', '6-digit'], required=False,
                         help='Maximum resolution of classical alleles typed in the reference panel.', dest='max_digit')
+    parser.add_argument('--output', required=False, help='Output filename for HLA information JSON file.', dest='output')
 
     args = parser.parse_args()
 
