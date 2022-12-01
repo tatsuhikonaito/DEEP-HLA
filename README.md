@@ -112,7 +112,8 @@ cd ./DEEP-HLA
   | ------------- | ------------------------------------------------------------ | -------- | --------- |
   | `--ref`       | HLA reference data (.bim format).                            | Yes      | None      |
   | `--max-digit` | Maximum resolution of alleles typed in the HLA reference data ("2-digit", "4-digit", or "6-digit"). | No       | "4-digit" |
-  
+  | `--output`    | Output filename for HLA information JSON file                | No       | {BASE\_DIR}/{REFERENCE}.hla.json |
+
   ##### Outputs
   
   - {REFERENCE}.hla.json
@@ -140,7 +141,7 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 | `--sample`    | Sample SNP data of the MHC region (.bim format).             | Yes      | None      |
 | `--model`     | Model configuration (.model.json format).                    | Yes      | None      |
 | `--hla`       | HLA information of the reference data (.hla.json format).    | Yes      | None      |
-| `--model-dir` | Directory for saving trained models.                         | No       | "model"   |
+| `--model-dir` | Directory for saving trained models.                         | No       | {BASE\_DIR}/model   |
 | `--num-epoch` | Number of epochs to train.                                   | No       | 100       |
 | `--patience`  | Patience for early-stopping. If you prefer no early-stopping, specify the same value as `--num-epoch`. | No       | 16        |
 | `--val-split` | Ratio of splitting data for validation.                      | No       | 0.1       |

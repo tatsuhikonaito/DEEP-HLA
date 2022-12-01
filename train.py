@@ -189,12 +189,12 @@ def train(args):
     ref_concord_phased = ref_phased.iloc[np.where(concord_snp)[0]]
     model_bim = ref_bim.iloc[np.where(concord_snp)[0]]
 
-    if not os.path.exists(os.path.join(BASE_DIR, model_dir)):
-        os.mkdir(os.path.join(BASE_DIR, model_dir))
+    if not os.path.exists(model_dir):
+        os.mkdir(model_dir)
     else:
         print('Warning: Directory for saving models already exists.')
 
-    model_bim.to_csv(os.path.join(BASE_DIR, model_dir, 'model.bim'), sep='\t', header=False, index=False)
+    model_bim.to_csv(os.path.join(model_dir, 'model.bim'), sep='\t', header=False, index=False)
 
     # Encode reference SNP data
     snp_encoded = np.zeros((2*num_ref, num_concord, 2))
@@ -267,7 +267,7 @@ def train(args):
             # Transfer parameters of shared net from those of upper digit
             if not digit == '2-digit':
                 try:
-                    model['shared'].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit_list[digit_list.index(digit)-1]))))
+                    model['shared'].load_state_dict(torch.load(os.path.join(model_dir, '{}_{}_shared_model.pickle'.format(g, digit_list[digit_list.index(digit)-1]))))
                     logger.log('Transferred parameters from shared net of upper digit at {} level.'.format(digit))
                 except FileNotFoundError:
                     logger.log('Shared net of upper digit not found at {} level.'.format(digit))
@@ -300,17 +300,17 @@ def train(args):
                 logger.log('Average validation accuracy: {}'.format(ave_val_acc))
                 # Save the current model if the current model is equal or better than the best one
                 if ave_val_acc >= best_ave_val_acc:
-                    torch.save(model['shared'].state_dict(), os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_shared_model.pickle'.format(g, digit, epoch)))
+                    torch.save(model['shared'].state_dict(), os.path.join(model_dir, '{}_{}_epoch{}_shared_model.pickle'.format(g, digit, epoch)))
                     t = 0
                     for hla in hla_list:
                         if not allele_cnts[hla] == 1:
-                            torch.save(model[t].state_dict(), os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, epoch, hla)))
+                            torch.save(model[t].state_dict(), os.path.join(model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, epoch, hla)))
                             t += 1
                     if not epoch == 1:
-                        os.remove(os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_shared_model.pickle'.format(g, digit, best_epoch)))
+                        os.remove(os.path.join(model_dir, '{}_{}_epoch{}_shared_model.pickle'.format(g, digit, best_epoch)))
                         for hla in hla_list:
                             if not allele_cnts[hla] == 1:
-                                os.remove(os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, best_epoch, hla)))
+                                os.remove(os.path.join(model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, best_epoch, hla)))
                     best_epoch = epoch
                     if ave_val_acc > best_ave_val_acc:
                         best_ave_val_acc = ave_val_acc
@@ -327,20 +327,20 @@ def train(args):
             logger.log('The best model is at epoch {}.'.format(best_epoch))
 
             # Rename models
-            os.rename(os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_shared_model.pickle'.format(g, digit, best_epoch)), 
-                      os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit)))
+            os.rename(os.path.join(model_dir, '{}_{}_epoch{}_shared_model.pickle'.format(g, digit, best_epoch)),
+                      os.path.join(model_dir, '{}_{}_shared_model.pickle'.format(g, digit)))
             for hla in hla_list:
                 if not allele_cnts[hla] == 1:
-                    os.rename(os.path.join(BASE_DIR, model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, best_epoch, hla)), 
-                              os.path.join(BASE_DIR, model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla)))
+                    os.rename(os.path.join(model_dir, '{}_{}_epoch{}_{}_model.pickle'.format(g, digit, best_epoch, hla)),
+                              os.path.join(model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla)))
 
             # Load the best models
-            model['shared'].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit))))
+            model['shared'].load_state_dict(torch.load(os.path.join(model_dir, '{}_{}_shared_model.pickle'.format(g, digit))))
             t = 0
             for hla in hla_list:
                 if not allele_cnts[hla] == 1:
                     model[t].load_state_dict(
-                        torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla))))
+                        torch.load(os.path.join(model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla))))
                     t += 1
             for m in model:
                 model[m] = model[m].float()
@@ -349,7 +349,7 @@ def train(args):
             best_val_acc = test_model(val_loader, hla_list, allele_cnts, num_task, model, metric, 'best_val')
             result_best_val.loc[hla_list, digit] = best_val_acc
 
-    result_best_val.to_csv(os.path.join(BASE_DIR, model_dir, 'best_val.txt'), header=True, index=True, sep='\t')
+    result_best_val.to_csv(os.path.join(model_dir, 'best_val.txt'), header=True, index=True, sep='\t')
 
     print('The processes have been finished at {}.'.format(time.ctime()))
 
@@ -360,7 +360,7 @@ def main():
     parser.add_argument('--sample', required=True, help='Sample SNP data (.bim format).', dest='sample')
     parser.add_argument('--model', required=True, help='Model configuration (.model.json format).', dest='model')
     parser.add_argument('--hla', required=True, help='HLA information of the reference data (.hla.json format).', dest='hla')
-    parser.add_argument('--model-dir', default='model', required=False, help='Directory for saving trained models.', dest='model_dir')
+    parser.add_argument('--model-dir', default=os.path.join(BASE_DIR, 'model'), required=False, help='Directory for saving trained models.', dest='model_dir')
     parser.add_argument('--num-epoch', default=100, type=int, required=False, help='Number of epochs to train.', dest='num_epoch')
     parser.add_argument('--patience', default=8, type=int, required=False, help='Patience for early-stopping.', dest='patience')
     parser.add_argument('--val-split', default=0.05, type=float, required=False, help='Ratio of splitting data for validation.', dest='val_split')
