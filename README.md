@@ -180,7 +180,7 @@ $ python impute.py --sample SAMPLE (.bgl.phased (.haps)/.bim/.fam) --model MODEL
 | `--phased-type` | File format of sample phased file ("bgl" or "haps").         | No       | "bgl"     |
 | `--model`       | Model configuration (.model.json and .bim format).           | Yes      | None      |
 | `--hla`         | HLA information of the reference data (.hla.json format).    | Yes      | None      |
-| `--model-dir`   | Directory where trained models are saved.                    | No       | "model"   |
+| `--model-dir`   | Directory where trained models are saved.                    | No       | {BASE\_DIR}/model   |
 | `--out`         | Prefix of output files.                                      | Yes      | None      |
 | `--max-digit`   | Maximum resolution of alleles to impute ("2-digit", "4-digit", or "6-digit"). | No       | "4-digit" |
 | `--mc-dropout`  | Whether to calculate uncertainty by Monte Carlo dropout (True or False). | No       | False     |
