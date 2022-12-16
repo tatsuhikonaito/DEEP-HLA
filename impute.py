@@ -31,7 +31,7 @@ def impute(args):
     sample_bim = pd.read_table(args.sample + '.bim', sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
     sample_fam = pd.read_table(args.sample + '.fam', sep='\t|\s+', names=['fid', 'iid', 'fat', 'mot', 'sex', 'phe'], header=None, engine='python')
     model_dir = args.model_dir
-    model_bim = pd.read_table(os.path.join(BASE_DIR, model_dir, 'model.bim'), sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
+    model_bim = pd.read_table(os.path.join(model_dir, 'model.bim'), sep='\t|\s+', names=['chr', 'id', 'dist', 'pos', 'a1', 'a2'], header=None, engine='python')
     with open(args.hla + '.hla.json', 'r') as f:
         hla_info = json.load(f)
     if args.max_digit == '2-digit':
@@ -131,11 +131,11 @@ def impute(args):
 
                 # Load models
                 model = {'shared': SharedNet(model_config[g], ed_index-st_index, input_collapse=False)}
-                model['shared'].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_shared_model.pickle'.format(g, digit))))
+                model['shared'].load_state_dict(torch.load(os.path.join(model_dir, '{}_{}_shared_model.pickle'.format(g, digit))))
                 for hla in hla_list:
                     if not allele_cnts[hla] == 1:
                         model[hla] = EachNet(model_config[g], allele_cnts[hla])
-                        model[hla].load_state_dict(torch.load(os.path.join(BASE_DIR, model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla))))
+                        model[hla].load_state_dict(torch.load(os.path.join(model_dir, '{}_{}_{}_model.pickle'.format(g, digit, hla))))
                 for m in model:
                     model[m] = model[m].float()
                     model[m].eval()
@@ -221,7 +221,7 @@ def main():
     parser.add_argument('--model', required=True, help='Model configuration (.model.json format).', dest='model')
     parser.add_argument('--phased-type', default='bgl', choices=['bgl', 'haps'], required=False, help='File format of sample phased file ("bgl", "haps").', dest='phased_type')
     parser.add_argument('--hla', required=True, help='HLA information of the reference data (.hla.json format).', dest='hla')
-    parser.add_argument('--model-dir', default='model', required=False, help='Directory for saving trained models.', dest='model_dir')
+    parser.add_argument('--model-dir', default=os.path.join(BASE_DIR, 'model'), required=False, help='Directory for saving trained models.', dest='model_dir')
     parser.add_argument('--out', required=True, help='Prefix of result file', dest='out')
     parser.add_argument('--max-digit', default='4-digit', choices=['2-digit', '4-digit', '6-digit'], required=False, help='Maximum resolution of alleles to impute.', dest='max_digit')
     parser.add_argument('--mc-dropout', default=False, type=bool, choices=[True, False], required=False, help='Whether to calculate uncertainty by Monte Carlo dropout.', dest='mc_dropout')
