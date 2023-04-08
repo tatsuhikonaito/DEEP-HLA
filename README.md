@@ -9,7 +9,7 @@
 
 `DEEP*HLA` receives pre-phased SNV data and outputs genotype dosages of binary HLA alleles.
 
-In  `DEEP*HLA`, HLA imputation is peformed in two processes: 
+In  `DEEP*HLA`, HLA imputation is performed in two processes: 
 
 ​	(1) model training with a HLA reference panel  
 
