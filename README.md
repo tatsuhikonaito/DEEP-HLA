@@ -11,7 +11,7 @@
 
 In  `DEEP*HLA`, HLA imputation is performed in two processes: 
 
-​	(1) model training with a HLA reference panel  
+​	(1) model training with an HLA reference panel  
 
 ​	(2) imputation with a trained model.
 
