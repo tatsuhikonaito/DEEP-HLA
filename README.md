@@ -155,7 +155,7 @@ $ python train.py --ref REFERENCE (.bgl.phased/.bim) --sample SAMPLE (.bim) --mo
 
 - {MODEL_DIR}/model.bim
 
-  SNP infomation used in tranining and subsequent imputation process.
+  SNP information used in training and subsequent imputation process.
 
 - {MODEL_DIR}]/best_val.txt
 
