@@ -407,7 +407,7 @@ def train(args):
         result_best_val.to_csv(os.path.join(BASE_DIR, fold_model_dir, 'best_val.txt'), header=True, index=True, sep='\t')
         result_best_test.to_csv(os.path.join(BASE_DIR, fold_model_dir, 'best_test.txt'), header=True, index=True, sep='\t')
 
-    cv_dosage.to_csv(os.path.join(BASE_DIR, model_dir, 'cv.deephla.dosage.txt'), header=True, index=False, sep='\t')
+    cv_dosage.to_csv(os.path.join(BASE_DIR, model_dir, 'cv.deephla.dosage'), header=False, index=True, sep='\t')
 
     # Calculate correlation coeffients between correct and CV-imputed dosages.
     accuracy = pd.DataFrame(index=result_index, columns=["r2"])
