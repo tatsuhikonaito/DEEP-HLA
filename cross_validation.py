@@ -239,6 +239,9 @@ def train(args):
                 for j in range(len(hla_info[hla][digit])):
                     correct_dosage.loc[hla_info[hla][digit][j], np.where(ref_phased.iloc[:, np.arange(0, 2*num_ref, 2)].loc[hla_info[hla][digit][j]] == 'P')[0]] += 1
                     correct_dosage.loc[hla_info[hla][digit][j], np.where(ref_phased.iloc[:, np.arange(1, 2*num_ref+1, 2)].loc[hla_info[hla][digit][j]] == 'P')[0]] += 1
+        correct_dosage["a1"] = "P"
+        correct_dosage["a2"] = "A"
+        correct_dosage = correct_dosage[["a1", "a2"] + list(correct_dosage.columns[:-2])]
         correct_dosage.to_csv(args.ref + '.deephla.dosage', header=False, index=True, sep='\t')
 
     # Cross_validation
@@ -407,13 +410,17 @@ def train(args):
         result_best_val.to_csv(os.path.join(BASE_DIR, fold_model_dir, 'best_val.txt'), header=True, index=True, sep='\t')
         result_best_test.to_csv(os.path.join(BASE_DIR, fold_model_dir, 'best_test.txt'), header=True, index=True, sep='\t')
 
+    cv_dosage["a1"] = "P"
+    cv_dosage["a2"] = "A"
+    cv_dosage = cv_dosage[["a1", "a2"] + list(cv_dosage.columns[:-2])]
     cv_dosage.to_csv(os.path.join(BASE_DIR, model_dir, 'cv.deephla.dosage'), header=False, index=True, sep='\t')
 
     # Calculate correlation coeffients between correct and CV-imputed dosages.
     accuracy = pd.DataFrame(index=result_index, columns=["r2"])
+    accuracy.index.name = "Allele"
     for i in accuracy.index:
         try:
-            accuracy.loc[i, "r2"] = pearsonr(cv_dosage.loc[i][:num_ref], correct_dosage.loc[i])[0]**2
+            accuracy.loc[i, "r2"] = pearsonr(cv_dosage.loc[i][2:], correct_dosage.loc[i][2:])[0]**2
         except ValueError:
             accuracy.loc[i, "r2"] = "NA"
     accuracy.to_csv(os.path.join(BASE_DIR, model_dir, 'CV_accuracy.txt'), 
