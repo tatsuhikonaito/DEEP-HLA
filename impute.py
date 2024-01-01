@@ -48,6 +48,7 @@ def impute(args):
     num_sample_snp = len(sample_bim)
     concord_snp = model_bim.pos.isin(sample_bim.pos)
     concord_sample_snp = sample_bim.pos.isin(model_bim.pos)
+    dup_sample_snp = sample_bim.loc[sample_bim.pos.isin(model_bim.pos), "pos"].duplicated()     # Added Jan 1st 2024
 
     logger.log('{} SNPs used for training.'.format(num_snp))
     logger.log('{} people loaded from sample.'.format(num_sample))
@@ -57,14 +58,21 @@ def impute(args):
     # Load and encode sample phased data
     sample_encoded = np.zeros((2 * num_sample, num_snp, 2))
     if args.phased_type == 'haps':
-        f_phased = open(args.sample + '.haps')
+        if os.path.exists(args.sample + '.haps.gz'):
+            import gzip
+            f_phased = gzip.open(args.sample + '.haps.gz', mode="rt")
+        else:
+            f_phased = open(args.sample + '.haps', mode="r")
         reader = csv.reader(f_phased, delimiter=' ')
         for i in range(num_sample_snp):
             line = next(reader)
             if concord_sample_snp[i]:
+                if dup_sample_snp[i]:     # Added Jan 1st 2024
+                    continue
                 a1 = model_bim[model_bim.pos == sample_bim.iloc[i].pos].a1.iloc[0]
                 a2 = model_bim[model_bim.pos == sample_bim.iloc[i].pos].a2.iloc[0]
-                i_ = np.where(model_bim.pos == sample_bim.iloc[i].pos)[0]
+                #i_ = np.where(model_bim.pos == sample_bim.iloc[i].pos)[0]
+                i_ = np.where(model_bim.pos == sample_bim.iloc[i].pos)[0][0]     # Added Jan 1st 2024
                 if a1 == line[3] and a2 == line[4]:
                     sample_encoded[np.where(np.array(line[5:]) == '0')[0], i_, 0] = 1
                     sample_encoded[np.where(np.array(line[5:]) == '1')[0], i_, 1] = 1
